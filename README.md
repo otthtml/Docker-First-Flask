@@ -9,3 +9,10 @@ Há algumas formas de iniciar o projeto.
 - A mais simples é docker-compose.yaml! Basta navegar para a pasta flask-template e executar o comando "docker-compose up". Isso irá construir uma imagem docker e rodar ela! Para um rápido teste, acesse a url "localhost:8085". Use "docker-compose stop" para pausar (ou aperte Ctrl+C que ele pausa automaticamente);
 
 - Também é possível rodar sem o docker! Para tal, primeiro navegue para a pasta desejada ("cd sqlalchemy", por exemplo) crie um ambiente chamado .env ("python -m venv .env"), ative o ambiente (no cmd é ".env\Scripts\activate"). Agora podemos instalar as dependências com "pip install -r requirements.txt. Se tudo ocorrer bem, rode a aplicação com o comando "python application.py".
+
+Comandos úteis:
+    Para docker:
+        - docker image prune -a (deleta todas as imagens não usadas ou "dangling")
+        - docker images (lista as imagens)
+        - docker container ls -a (mostra TODOS os containers)
+        - docker stop my_container (para o container my_container)
