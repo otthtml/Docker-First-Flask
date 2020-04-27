@@ -13,18 +13,35 @@ from functools import wraps
 
 application = Flask(__name__)
 CORS(application)
-db_url = "postgresql://postgres:l1nnk$$tecnolog1a$022430#2020*!@postgresteste.linnks.com.br/dblinked"
-engine = create_engine(db_url)
-db = scoped_session(sessionmaker(bind=engine))
-
 # Não ordenar as respostas de forma alfabética
 application.config["JSON_SORT_KEYS"] =  False
+
+
+def connDB():
+    """
+    se a origem for a produção (app.linnks), usar o BD produção
+    caso contrário, usar o BD teste (app2.linnks)
+    """
+    origem = str(request.headers.get("origin"))
+    referer = str(request.headers.get("referer"))
+    if origem.find("app.linnks") != -1 or referer.find("app.linnks") != -1: # PRODUÇÃO
+        db_url = "postgresql://postgres:l1nnk$$tecnolog1a$022430#2020*!@postgresql.linnks.com.br/dblinked"
+    elif origem.find("app2.linnks") != -1 or referer.find("app2.linnks") != -1: # AMBIENTE DE TESTE
+        db_url = "postgresql://postgres:l1nnk$$tecnolog1a$022430#2020*!@postgresteste.linnks.com.br/dblinked"
+    else:
+        return jsonify({"error": True,
+        "mensagem": "Origem inválida."})
+
+    engine = create_engine(db_url)
+    db = scoped_session(sessionmaker(bind=engine))
+    return db
 
 # Decorator que modifica a função interna (decorated).
 def token_required(f):
     # Encapsulamento da função f
     @wraps(f)
     def decorated(*args, **kwargs):
+        db = connDB()
         token = ""
         token_db = ""
         try:
@@ -33,14 +50,15 @@ def token_required(f):
             token_db = str(db.execute(query_sql, {"token": token}).fetchone())
             db.close()
         except:
-            return jsonify({"mensagem": "erro",
-            "erro": "Token invalido."})
+            db.close()
+            return jsonify({"error": True,
+            "mensagem": "Token invalido."})
 
         if len(token_db) > 0:
             return f(*args, **kwargs)
         else:
-            return jsonify({"mensagem": "erro",
-            "erro": "Token nao encontrado."})
+            return jsonify({"error": True,
+            "mensagem": "Token nao encontrado."})
     return decorated
 
 
@@ -48,7 +66,7 @@ def token_required(f):
 # com o link fornecido.
 @application.route("/", methods=["GET"])
 def index():
-    return "Linnks Tecnologia"
+    return "Linnks Tecnologia COM DOCKER COMPOSE AGORA"
 
 # O trecho abaixo ativa a função que utiliza o método GET
 @application.route("/parametro/<int:numerinho>", methods = ["GET"])
@@ -78,4 +96,4 @@ def rotaProtegida():
    return jsonify(requisicao.get("test"))
 
 if (__name__ == "__main__"):
-    application.run(host="127.0.0.1", port="8085", debug=True) 
+    application.run(host="0.0.0.0", port="8085", debug=True) 

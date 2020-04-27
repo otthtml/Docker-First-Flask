@@ -1,0 +1,16 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "financeiro.pagamento/image",
+      "Update": "true"
+    },
+    "Ports": [
+      {
+        "ContainerPort": "8085",
+        "HostPort": "8085"
+      }
+    ],
+
+    "Entrypoint": "python3",
+    "Command": "application.py"
+  }
