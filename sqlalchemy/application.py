@@ -28,6 +28,8 @@ def connDB():
         db_url = "postgresql://postgres:l1nnk$$tecnolog1a$022430#2020*!@postgresql.linnks.com.br/dblinked"
     elif origem.find("app2.linnks") != -1 or referer.find("app2.linnks") != -1: # AMBIENTE DE TESTE
         db_url = "postgresql://postgres:l1nnk$$tecnolog1a$022430#2020*!@postgresteste.linnks.com.br/dblinked"
+    elif origem.find("localhost") != -1 or referer.find("localhost") != -1: # LOCAL
+        db_url = "AQUI VAI A STRING DE CONEXÃO COM O SEU BANCO DE DADOS LOCAL"
     else:
         return jsonify({"error": True,
         "mensagem": "Origem inválida."})
