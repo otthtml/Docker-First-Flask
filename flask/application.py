@@ -73,8 +73,8 @@ def postRoute():
    """
    postRoute
    """
-   requisicao = request.get_json()
-   return jsonify(requisicao.get("test"))   
+   req = request.get_json()
+   return jsonify(req.get("test"))   
 
 
 @application.route("/protectedroute/", methods = ["POST"])
@@ -83,8 +83,8 @@ def protectedRoute():
    """
    protectedRoute uses token to limit access
    """
-   requisicao = request.get_json()
-   return jsonify(requisicao.get("test"))
+   req = request.get_json()
+   return jsonify(req.get("test"))
 
 if (__name__ == "__main__"):
     application.run(host="0.0.0.0", port="8085", debug=True) 
