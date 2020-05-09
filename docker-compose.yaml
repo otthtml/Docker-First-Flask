@@ -1,6 +1,6 @@
 version: "3"
 services:
-  sqlalchemy:
-    build: ./sqlalchemy
+  flask:
+    build: ./flask
     ports: ['8085:8085']
-    volumes: ['./sqlalchemy:/app']
+    volumes: ['./flask:/app']
