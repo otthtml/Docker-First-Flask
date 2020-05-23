@@ -3,6 +3,7 @@ aws*
 .vscode
 .env
 .idea
+postgres
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
